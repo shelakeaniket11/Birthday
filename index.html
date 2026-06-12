@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday 🎉</title>
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Fixed canvas layers (particles, confetti, fireworks) -->
+  <canvas id="particle-canvas"></canvas>
+  <canvas id="confetti-canvas"></canvas>
+  <canvas id="firework-canvas"></canvas>
+
+
+  <!-- ══════════════════════════════════════
+       SCENE 1 — HERO
+       Full-screen opening with your friend's name,
+       floating balloons, animated gradient glow.
+  ══════════════════════════════════════ -->
+  <section id="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-shimmer"></div>
+    <div id="balloon-container"></div>
+
+    <p class="hero-eyebrow">✨ A celebration just for you ✨</p>
+    <h1 class="hero-title">Happy Birthday 🎉</h1>
+
+    <!--
+      ✏️ EDIT: Change "You're So Loved" to your friend's actual name.
+      Example: <p class="hero-name">Riya</p>
+    -->
+    <p class="hero-name" id="hero-name">Tamanna</p>
+
+    <p class="hero-sub">
+      Every smile you've shared, every memory we've made —
+      today the whole world celebrates you.
+    </p>
+
+    <button class="cta-btn" onclick="smoothScrollTo('#timeline')">
+      Open Your Surprise 💛
+    </button>
+
+    <div class="scroll-hint">
+      <span>scroll</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════
+       SCENE 2 — FRIENDSHIP TIMELINE
+       Cards that slide up one by one on scroll.
+  ══════════════════════════════════════ -->
+  <section id="timeline">
+    <div class="section-inner">
+      <span class="section-tag">Your Story</span>
+      <h2 class="section-title">Some People Just Change Everything</h2>
+      <p class="section-desc">
+        There are rare souls who walk in and quietly make life more
+        beautiful — just by being themselves.
+      </p>
+
+      <div class="timeline-item">
+        <span class="tl-icon">🌸</span>
+        <p class="tl-text">
+          Some people enter your life and make
+          <span class="tl-accent">every ordinary day</span>
+          feel like something worth remembering.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <span class="tl-icon">💛</span>
+        <p class="tl-text">
+          Some friendships become the
+          <span class="tl-accent">warmest kind of home</span>
+          — a place you go when you need to feel okay again.
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <span class="tl-icon">🤣</span>
+        <p class="tl-text">
+          Some people carry laughter with them everywhere — and somehow it
+          <span class="tl-accent">finds you exactly when you need it.</span>
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <span class="tl-icon">🌟</span>
+        <p class="tl-text">
+          And some people show up — over and over — proving that
+          <span class="tl-accent">real love is a quiet, steady choice.</span>
+        </p>
+      </div>
+
+      <div class="timeline-item">
+        <span class="tl-icon">🌟</span>
+        <p class="tl-text">
+          You are every single one of these things. And the world is
+          <span class="tl-accent">genuinely warmer</span>
+          because you're in it.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════
+       SCENE 3 — PHOTO STACK (POLAROID SWIPE)
+
+       HOW IT WORKS:
+       • All photos are stacked on top of each other like a deck of cards.
+       • The top card is always visible with a slight 3D tilt.
+       • Tap / click → top card flies off left or right (random).
+       • Next photo beneath it becomes the new top card.
+       • When all cards are gone, a "replay" button appears.
+
+       HOW TO ADD YOUR PHOTOS:
+       1. Put your photos inside the /images/ folder.
+       2. Name them: 1.jpg, 2.jpg, 3.jpg, 4.jpg, 5.jpg  (JPG or PNG both work)
+       3. Edit the PHOTOS array in js/gallery.js — change the filename and caption.
+       4. That's it! The stack is built automatically from the array.
+
+       PHOTO RESIZE GUIDE (see bottom of this file for full guide):
+       • Best size: 800×800 px (square) or 800×1000 px (portrait)
+       • Keep file size under 300 KB each for fast loading
+       • Use https://squoosh.app (free, browser-based) to resize & compress
+  ══════════════════════════════════════ -->
+  <section id="gallery">
+    <div class="section-inner">
+      <span class="section-tag">Memories</span>
+      <h2 class="section-title">Moments Worth Keeping Forever</h2>
+      <p class="section-desc">
+        Every shared laugh, every little adventure, every quiet moment —
+        all of it is gold. Tap a photo to flip through the memories.
+      </p>
+
+      <!-- The stack lives here — JS builds it from the PHOTOS array -->
+      <div id="photo-stack-wrap">
+        <div id="photo-stack">
+          <!-- Cards injected by js/gallery.js -->
+        </div>
+        <p id="stack-hint">tap to reveal the next memory 👆</p>
+        <button id="stack-replay" onclick="buildStack()">
+          Replay Memories 🔁
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════
+       SCENE 4 — VALUES / TRAITS
+       Six glowing cards that scale in on scroll.
+  ══════════════════════════════════════ -->
+  <section id="values">
+    <div class="section-inner">
+      <span class="section-tag">What You Are</span>
+      <h2 class="section-title">Everything You Bring to the World</h2>
+      <p class="section-desc">These aren't just words — they are you, through and through.</p>
+
+      <div class="values-grid">
+        <div class="value-card"><span class="value-icon">☀️</span><div class="value-name">Warmth</div></div>
+        <div class="value-card"><span class="value-icon">😊</span><div class="value-name">Joy</div></div>
+        <div class="value-card"><span class="value-icon">💪</span><div class="value-name">Strength</div></div>
+        <div class="value-card"><span class="value-icon">☀️</span><div class="value-name">Radiance</div></div>
+        <div class="value-card"><span class="value-icon">🎯</span><div class="value-name">Dedication</div></div>
+        <div class="value-card"><span class="value-icon">🌟</span><div class="value-name">Brilliance</div></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════
+       SCENE 5 — BIRTHDAY WISHES
+       Alternating slide-in cards with heartfelt messages.
+       ✏️ EDIT: Feel free to change the wish text below.
+  ══════════════════════════════════════ -->
+  <section id="wishes">
+    <div class="section-inner">
+      <span class="section-tag">From the Heart</span>
+      <h2 class="section-title">Everything I Wish for You</h2>
+      <p class="section-desc">Words feel small, but let me try anyway.</p>
+
+      <div class="wish-card">
+        <div class="wish-number n1">1</div>
+        <p class="wish-text">
+          May this year bring you opportunities that excite you, success that
+          makes you proud, and happiness that wraps around you like sunlight.
+        </p>
+      </div>
+
+      <div class="wish-card">
+        <div class="wish-number n2">2</div>
+        <p class="wish-text">
+          Thank you for being so wonderfully, genuinely <em>you</em> — for your
+          warmth, your care, and the positivity you pour into every room you
+          enter.
+        </p>
+      </div>
+
+      <div class="wish-card">
+        <div class="wish-number n3">3</div>
+        <p class="wish-text">
+          Every effort, every late night, every time you kept going when it was
+          hard — may all of it bloom into something beautiful this year.
+        </p>
+      </div>
+
+      <div class="wish-card">
+        <div class="wish-number n4">4</div>
+        <p class="wish-text">
+          May your smile never dim, your confidence keep growing taller, and
+          your heart stay as full and as soft as it's always been.
+        </p>
+      </div>
+
+      <div class="wish-card">
+        <div class="wish-number n5">5</div>
+        <p class="wish-text">
+          Here's to more laughter, more victories, more silly little moments,
+          and more reasons to celebrate — together. 🥂 Stay golden, always.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════
+       SCENE 6 — CELEBRATION
+       Confetti + fireworks trigger when this section scrolls into view.
+  ══════════════════════════════════════ -->
+  <section id="celebration">
+    <div class="section-inner">
+      <span class="cake-wrap" id="cake">🎂</span>
+      <h2 class="celeb-title">Happy Birthday!</h2>
+      <div class="celeb-divider"></div>
+      <p class="celeb-sub">
+        Keep shining, keep smiling, and keep being the absolutely wonderful
+        person you already are. The best parts of your story are still ahead.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════
+       SCENE 7 — FINALE
+       Dark starfield, glowing message, floating emoji hearts.
+       ✏️ EDIT: Change the title text if you want a personal closing line.
+  ══════════════════════════════════════ -->
+  <section id="finale">
+    <canvas id="star-canvas"></canvas>
+    <div class="finale-inner">
+      <div class="finale-heart" id="finale-heart">💛</div>
+      <h2 class="finale-title" id="finale-title">
+        Thank You For Being Such A Wonderful Friend
+      </h2>
+      <p class="finale-sub" id="finale-sub">Wishing you a fantastic year ahead</p>
+      <p class="finale-name" id="finale-name">Happy Birthday Dear</p>
+    </div>
+  </section>
+
+
+  <!-- JavaScript files (order matters) -->
+  <script src="js/gallery.js"></script>   <!-- Photo stack config + logic -->
+  <script src="js/particles.js"></script> <!-- Background floating particles -->
+  <script src="js/balloons.js"></script>  <!-- Hero floating balloons -->
+  <script src="js/confetti.js"></script>  <!-- Confetti + fireworks -->
+  <script src="js/main.js"></script>      <!-- Scroll observers, finale, helpers -->
+
+</body>
+</html>
+
+
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║              📸 PHOTO RESIZE & PREP GUIDE                   ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║                                                              ║
+  ║  RECOMMENDED PHOTO DIMENSIONS                                ║
+  ║  ─────────────────────────────                               ║
+  ║  Square  : 800 × 800 px   ← looks best in the stack         ║
+  ║  Portrait: 800 × 1000 px  ← also fine                       ║
+  ║  Landscape will be cropped to fill — avoid if possible.      ║
+  ║                                                              ║
+  ║  FILE NAMING                                                 ║
+  ║  ────────────                                                ║
+  ║  Name your photos: 1.jpg, 2.jpg, 3.jpg, 4.jpg, 5.jpg        ║
+  ║  (or .png — both work)                                       ║
+  ║  Drop them into the  /images/  folder.                       ║
+  ║                                                              ║
+  ║  FREE TOOLS TO RESIZE                                        ║
+  ║  ─────────────────────                                       ║
+  ║  • https://squoosh.app          ← best, drag & drop          ║
+  ║    Steps: Open image → Resize → set W to 800 → Export JPEG  ║
+  ║    Quality: 75–80 % is perfect. Aim for < 300 KB per photo. ║
+  ║                                                              ║
+  ║  • https://www.iloveimg.com/resize-image  ← bulk resize     ║
+  ║                                                              ║
+  ║  • On iPhone: Shortcuts app → "Convert Image" shortcut       ║
+  ║  • On Android: "Photo & Picture Resizer" app (free)          ║
+  ║                                                              ║
+  ║  ADDING MORE / FEWER PHOTOS                                  ║
+  ║  ────────────────────────────                                ║
+  ║  Open  js/gallery.js  and edit the PHOTOS array.            ║
+  ║  Each entry is:  { src: 'images/1.jpg', caption: '...' }    ║
+  ║  Add or remove lines freely.                                 ║
+  ║                                                              ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
